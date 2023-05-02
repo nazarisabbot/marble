@@ -1,41 +1,34 @@
 (() => {
   const game = () => {
-    const botScore = [];
-    const userScore = [];
-
-    const scoreCount = (score, arr) => {
-      for (let i = 0; i < score; i++) {
-        arr[i] = i;
-      }
+    const score = {
+      botScore: 5,
+      userScore: 5,
     };
 
-    scoreCount(5, botScore);
-    scoreCount(5, userScore);
-
     const randomGenerate = (max, min) => {
-      const index = Math.round(Math.random() * (max - min) + max);
-      return index;
+      const answerBot = Math.round(Math.random() * (max - min) + max);
+      return answerBot;
     };
 
     return function start() {
       const answerUser = +prompt(`Загадайте число от ${1}
-      до ${userScore.length}`);
+      до ${score.userScore}`);
 
       if (answerUser % 2 === randomGenerate(1, 2)) {
-        scoreCount(botScore.length + answerUser, botScore);
-        userScore.length -= answerUser;
+        score.userScore -= answerUser;
+        score.botScore += answerUser;
       } else {
-        botScore.length -= answerUser;
-        scoreCount(userScore.length + answerUser, userScore);
+        score.botScore -= answerUser;
+        score.userScore += answerUser;
       }
 
-      if (botScore.length > 0 && userScore.length > 0) {
-        console.log(botScore);
-        console.log(userScore);
+      if (score.botScore > 0 && score.userScore > 0) {
+        console.log(score.botScore);
+        console.log(score.userScore);
         start();
       } else {
-        alert(`кол-во шаров у бота: ${botScore.length};
-        кол-во шаров у вас ${userScore.length}`);
+        alert(`кол-во шаров у бота: ${score.botScore};
+        кол-во шаров у вас ${score.userScore}`);
         location.reload();
       }
     };
